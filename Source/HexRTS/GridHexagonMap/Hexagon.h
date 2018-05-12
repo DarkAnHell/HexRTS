@@ -10,8 +10,9 @@ UCLASS()
 class HEXRTS_API AHexagon : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+public:
+	UPROPERTY(BlueprintReadWrite, Category = "Data")
+		UStaticMeshComponent* hexagon;
 	// Sets default values for this actor's properties
 	AHexagon();
 	UFUNCTION(BlueprintImplementableEvent, Category = "Control")
