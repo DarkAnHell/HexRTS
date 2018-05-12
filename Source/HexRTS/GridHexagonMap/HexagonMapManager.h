@@ -24,6 +24,10 @@ public:
 	AHexagonMapManager();
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		AHexagon* getHexagon(FVector pos);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		void moveHexagons(FVector pos, float space, float time, int32 radious);
 
 protected:
 	// Called when the game starts or when spawned
