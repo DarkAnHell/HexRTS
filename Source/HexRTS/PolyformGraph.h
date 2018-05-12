@@ -30,11 +30,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	int GetCost(AActor AActorToPolyform) {
+	int GetCost(AActor* AActorToPolyform) {
 
 		int cost = 1;
+		int index;
 
-		//if(SpecialUnits->Contains())
 
 		return cost;
 
