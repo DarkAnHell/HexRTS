@@ -12,13 +12,12 @@ class HEXRTS_API UPolyformGraph : public UActorComponent
 {
 	GENERATED_BODY()
 
-	TLinkedList<GraphNode>* UnitsLinkedList;
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Units)
-		TArray<AActor>* SpecialUnits;
+		TArray<AActor*> SpecialUnits;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Units)
-		TArray<AActor>* Units;
+		TArray<AActor*> Units;
 
 	// Sets default values for this component's properties
 	UPolyformGraph();
@@ -31,7 +30,15 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	
+	int GetCost(AActor AActorToPolyform) {
+
+		int cost = 1;
+
+		//if(SpecialUnits->Contains())
+
+		return cost;
+
+	}
 	
 	
 };
