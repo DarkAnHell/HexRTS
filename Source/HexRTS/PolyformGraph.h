@@ -33,7 +33,7 @@ public:
 	int GetCost(AActor* AActorToPolyform) {
 
 		int cost = 1;
-		int index;
+		//int index;
 
 
 		return cost;
