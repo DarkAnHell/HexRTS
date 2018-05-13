@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Hexagon.h"
+#include "PerlinNoiseMatrix.h"
 #include "HexagonMapManager.generated.h"
 
 UCLASS()
