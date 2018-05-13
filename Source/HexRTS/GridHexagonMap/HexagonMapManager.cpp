@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HexagonMapManager.h"
+#include "Runtime/Engine/Classes/Components/InstancedStaticMeshComponent.h"
 
 
 // Sets default values
@@ -11,7 +12,7 @@ AHexagonMapManager::AHexagonMapManager()
 
 }
 
-void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UClass * hexagon)
+void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UClass * hexagon, UStaticMesh * hexMesh)
 {
 	this->size = size;
 	this->scaleXY = scaleXY;
@@ -22,6 +23,13 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 
 	PerlinNoiseMatrix pm(268);
 
+	AActor*hex = GetWorld()->SpawnActor<AActor>(AActor::StaticClass());
+	UInstancedStaticMeshComponent *ISMComp = NewObject<UInstancedStaticMeshComponent>(hex);
+	ISMComp->RegisterComponent();
+	ISMComp->SetStaticMesh(hexMesh);
+	ISMComp->SetFlags(RF_Transactional);
+	hex->AddInstanceComponent(ISMComp);
+
 	for (int i = 0; i < this->size; i++) {
 		map[i] = new AHexagon*[this->size];
 
@@ -30,9 +38,10 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 			y = 80*j/(size);
 			n = pm.noise(y, x, 0.85f);
 			n = n - floor(n);
-			const FVector pos = FVector(j*scaleXY * 3, (j % 2) * 2 * scaleXY + i * scaleXY * 4, floor(50 * n));
-			map[i][j] = (AHexagon*)((GetWorld())->SpawnActor(hexagon, &pos, &FRotator::ZeroRotator));
-			map[i][j]->GetRootComponent()->SetWorldScale3D(FVector(scaleXY, scaleXY, scaleZ));
+			const FVector pos = FVector(j*scaleXY * 3, (j % 2) * 2 * scaleXY + i * scaleXY * 4, (sin(i/10.0f)+cos(j/10.0f))*50 + (floor(30 * n) - 15));
+			FTransform t(FRotator(0.0f, 90.0f, 0.0f),pos, FVector(scaleXY, scaleXY, scaleZ));
+			ISMComp->AddInstance(t);
+			//map[i][j] = (AHexagon*)((GetWorld())->SpawnActor(hexagon, &pos, &FRotator::ZeroRotator));
 		}
 	}
 }
