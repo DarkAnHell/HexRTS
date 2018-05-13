@@ -6,7 +6,8 @@
 TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 {
 	_Discovered = TArray<Node>();
-	_Descarted = TArray<Node>();
+	_Descarted = TArray<Node>(); 
+
 
 	TArray<FhexagInfo> path = TArray<FhexagInfo>();
 
@@ -30,7 +31,7 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 		TArray<Node> neighbours = this->Discover(&current, goal);
 
 		_Discovered.Append(neighbours);
-		_Discovered.Sort([](Node A, Node B) {
+		_Discovered.Sort([](const Node& A, const Node& B) {
 			return A.cost < B.cost;
 		});
 	}
@@ -57,9 +58,11 @@ TArray<Node> UPathFinding::Discover(Node* node, FhexagInfo goal)
 	int i = 0;
 
 	for (i = 1;i<possibles.Num();i++) {
-
+		FVector hexpos = possibles[i].pos;
 		//Look if is accesible
-		if (possibles[i].status != -1) {
+		if (!_Discovered.ContainsByPredicate([&](const Node& InItem) { return InItem.Hexagon.pos==hexpos; })
+			&& !_Descarted.ContainsByPredicate([&](const Node& InItem) { return InItem.Hexagon.pos==hexpos; })
+			&& possibles[i].status != -1) {
 			results.Add(Node(node,possibles[i],goal));
 		}
 	}
