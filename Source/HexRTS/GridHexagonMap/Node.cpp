@@ -2,11 +2,11 @@
 
 #include "Node.h"
 
-Node::Node(Node* last, AHexagon* hexagon, AHexagon* goal)
+Node::Node(Node* last, FhexagInfo hexagon, FhexagInfo goal)
 {
 	this->Last = last;
 	this->Hexagon = hexagon;
-	this->cost = (goal->GetActorLocation() - hexagon->GetActorLocation()).Size();
+	this->cost = (goal.pos - hexagon.pos).Size();
 }
 Node::~Node()
 {
