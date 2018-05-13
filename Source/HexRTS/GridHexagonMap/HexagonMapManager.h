@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Hexagon.h"
 #include "PerlinNoiseMatrix.h"
+#include "Runtime/Engine/Classes/Components/InstancedStaticMeshComponent.h"
 #include "HexagonMapManager.generated.h"
 
 USTRUCT(BlueprintType)
@@ -35,6 +36,9 @@ public:
 		int32 scaleXY;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		int32 scaleZ;
+	AActor* hexagonClass;
+	UInstancedStaticMeshComponent *ISMComp;
+	//UInstancedStaticMeshComponent *ISMComp;
 
 	// Sets default values for this actor's properties
 	AHexagonMapManager();
