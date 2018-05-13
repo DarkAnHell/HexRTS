@@ -10,7 +10,7 @@
 
 struct hexagInfo {
 	int32 i;
-	int32 i;
+	int32 j;
 	FVector pos;
 	int32 status;
 	int32 index;
