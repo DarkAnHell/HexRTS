@@ -43,6 +43,25 @@ float PerlinNoiseMatrix::noise(float x, float y, float z)
 	return (res + 1.0f)/2.0f;
 }
 
+float PerlinNoiseMatrix::octaveNoise(float x, float y, float z)
+{
+	float total = 0.0f;
+	float frecuency = 4.0f;
+	float amplitude = 128.0f;
+	float maxValue = 0.0f;
+
+	for (int i = 0; i < 6; i++) {
+		total += noise(x*frecuency, y*frecuency, z*frecuency) * amplitude;
+
+		maxValue += amplitude;
+
+		amplitude /= 2;
+		frecuency *= 2;
+	}
+
+	return total/maxValue;
+}
+
 float PerlinNoiseMatrix::fade(float t)
 {
 	return t * t * t  *(t * (t * 6 - 15) + 10);
