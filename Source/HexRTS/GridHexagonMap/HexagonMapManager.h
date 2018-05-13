@@ -8,20 +8,27 @@
 #include "PerlinNoiseMatrix.h"
 #include "HexagonMapManager.generated.h"
 
-struct hexagInfo {
-	int32 i;
-	int32 j;
-	FVector pos;
-	int32 status;
-	int32 index;
+USTRUCT(BlueprintType)
+struct FhexagInfo {
+	GENERATED_BODY();
+	UPROPERTY()
+		int32 i;
+	UPROPERTY()
+		int32 j;
+	UPROPERTY()
+		FVector pos;
+	UPROPERTY()
+		int32 status;
+	UPROPERTY()
+		int32 index;
 };
 
 UCLASS()
 class HEXRTS_API AHexagonMapManager : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		int32 size;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
@@ -34,23 +41,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag, UStaticMesh * hexMesh);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		hexagInfo getHexagon(FVector pos);
+		FhexagInfo getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		void moveHexagons(FVector pos, float space, float time, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		hexagInfo* seeAround(FVector pos);
-
-
+		TArray<FhexagInfo> seeAround(FVector pos);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	hexagInfo** map;
+	FhexagInfo** map;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
-	
+
+
 };
