@@ -40,6 +40,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		hexagInfo* seeAround(FVector pos);
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
