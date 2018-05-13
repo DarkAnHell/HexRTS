@@ -52,6 +52,7 @@ protected:
 	virtual void BeginPlay() override;
 	FhexagInfo** map;
 	AActor* hexagonClass;
+	UInstancedStaticMeshComponent *ISMComp;
 
 public:
 	// Called every frame
