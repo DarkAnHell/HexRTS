@@ -51,6 +51,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	FhexagInfo** map;
+	AActor* hexagonClass;
 
 public:
 	// Called every frame
