@@ -23,12 +23,12 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 
 	PerlinNoiseMatrix pm(268);
 
-	AActor*hex = GetWorld()->SpawnActor<AActor>(AActor::StaticClass());
-	UInstancedStaticMeshComponent *ISMComp = NewObject<UInstancedStaticMeshComponent>(hex);
+	AActor* hexagonClass = GetWorld()->SpawnActor<AActor>(AActor::StaticClass());
+	UInstancedStaticMeshComponent *ISMComp = NewObject<UInstancedStaticMeshComponent>(hexagonClass);
 	ISMComp->RegisterComponent();
 	ISMComp->SetStaticMesh(hexMesh);
 	ISMComp->SetFlags(RF_Transactional);
-	hex->AddInstanceComponent(ISMComp);
+	hexagonClass->AddInstanceComponent(ISMComp);
 
 	FhexagInfo hi;
 
@@ -45,6 +45,8 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 			hi.index = ISMComp->AddInstance(t);
 			hi.pos = pos;
 			hi.status = 0;
+			hi.i = i;
+			hi.j = j;
 			map[i][j] = hi;
 		}
 	}
@@ -130,6 +132,7 @@ TArray<FhexagInfo> AHexagonMapManager::seeAround(FVector pos)
 		oi = 1;
 	oj = -oi;
 
+	aux.Add(centro);
 	if (centro.j + oi > 0 && centro.j + oi < size)
 		aux.Add(map[centro.i][centro.j + oi]);
 	if (centro.i - 1 > 0)
