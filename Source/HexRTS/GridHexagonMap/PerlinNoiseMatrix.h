@@ -18,6 +18,7 @@ public:
 	PerlinNoiseMatrix(unsigned int seed);
 	~PerlinNoiseMatrix();
 	float noise(float x, float y, float z);
+	float octaveNoise(float x, float y, float z);
 
 private:
 	float fade(float t);
