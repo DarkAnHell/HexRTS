@@ -130,6 +130,7 @@ TArray<FhexagInfo> AHexagonMapManager::seeAround(FVector pos)
 		oi = 1;
 	oj = -oi;
 
+	aux.Add(centro);
 	if (centro.j + oi > 0 && centro.j + oi < size)
 		aux.Add(map[centro.i][centro.j + oi]);
 	if (centro.i - 1 > 0)
