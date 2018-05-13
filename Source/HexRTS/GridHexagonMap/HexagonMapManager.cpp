@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "HexagonMapManager.h"
+#include "Runtime/Engine/Classes/Components/InstancedStaticMeshComponent.h"
 
 
 // Sets default values
@@ -11,47 +12,59 @@ AHexagonMapManager::AHexagonMapManager()
 
 }
 
-void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UClass * hexagon)
+void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UClass * hexagon, UStaticMesh * hexMesh)
 {
 	this->size = size;
 	this->scaleXY = scaleXY;
 	this->scaleZ = scaleZ;
 
-	map = new AHexagon**[this->size];
+	map = new hexagInfo*[this->size];
 	float n, x, y;
 
 	PerlinNoiseMatrix pm(268);
 
+	AActor*hex = GetWorld()->SpawnActor<AActor>(AActor::StaticClass());
+	UInstancedStaticMeshComponent *ISMComp = NewObject<UInstancedStaticMeshComponent>(hex);
+	ISMComp->RegisterComponent();
+	ISMComp->SetStaticMesh(hexMesh);
+	ISMComp->SetFlags(RF_Transactional);
+	hex->AddInstanceComponent(ISMComp);
+
+	hexagInfo hi;
+
 	for (int i = 0; i < this->size; i++) {
-		map[i] = new AHexagon*[this->size];
+		map[i] = new hexagInfo[this->size];
 
 		for (int j = 0; j < this->size; j++) {
 			x = 80*i/(size);
 			y = 80*j/(size);
 			n = pm.noise(y, x, 0.85f);
 			n = n - floor(n);
-			const FVector pos = FVector(j*scaleXY * 3, (j % 2) * 2 * scaleXY + i * scaleXY * 4, floor(50 * n));
-			map[i][j] = (AHexagon*)((GetWorld())->SpawnActor(hexagon, &pos, &FRotator::ZeroRotator));
-			map[i][j]->GetRootComponent()->SetWorldScale3D(FVector(scaleXY, scaleXY, scaleZ));
+			const FVector pos = FVector(j*scaleXY * 3, (j % 2) * 2 * scaleXY + i * scaleXY * 4, (sin(i/10.0f)+cos(j/10.0f))*50 + (floor(30 * n) - 15));
+			FTransform t(FRotator(0.0f, 90.0f, 0.0f),pos, FVector(scaleXY, scaleXY, scaleZ));
+			hi.index = ISMComp->AddInstance(t);
+			hi.pos = pos;
+			hi.status = 0;
+			map[i][j] = hi;
 		}
 	}
 }
 
-AHexagon * AHexagonMapManager::getHexagon(FVector pos)
+hexagInfo AHexagonMapManager::getHexagon(FVector pos)
 {
-	int j = pos.X / 3 / scaleXY, i = pos.Y;
+	float j = pos.X / 3 / scaleXY, i = pos.Y;
 
-	if (j % 2 != 0)
+	if (((int)round(j)) % 2 != 0)
 		i -= 2 * scaleXY;
 	i = i / 4 / scaleXY;
 
-	return map[i][j];
+	return map[(int)round(i)][(int)round(j)];
 }
 
 void AHexagonMapManager::moveHexagons(FVector pos, float space, float time, int32 radious)
-{
-	AHexagon* aux = getHexagon(pos);
-	FVector auxP = aux->GetRootComponent()->GetComponentLocation();
+{/*
+	hexagInfo aux = getHexagon(pos);
+	FVector auxP = aux.pos;
 	aux->Raise(space, time);
 	float distance;
 
@@ -101,7 +114,42 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float time, int3
 				aux->Raise(distance, time);
 			}
 		}
+	}*/
+}
+
+hexagInfo * AHexagonMapManager::seeAround(FVector pos)
+{
+	hexagInfo* aux = new hexagInfo[6],* fin;
+	int oi, oj, c = 0;
+
+	hexagInfo centro = getHexagon(pos);
+
+	if (centro.j % 2 == 1)
+		oi = -1;
+	else
+		oi = 1;
+	oj = -oi;
+
+	if (centro.j + oi > 0 && centro.j + oi < size)
+		aux[c++] = map[centro.i][centro.j + oi];
+	if (centro.i -1 > 0)
+		aux[c++] = map[centro.i - 1][centro.j];
+	if (centro.i + 1 < size)
+		aux[c++] = map[centro.i + 1][centro.j];
+	oi += 2 * oj;
+	if (centro.j + oi > 0 && centro.j + oi < size) {
+		aux[c++] = map[centro.i][centro.j + oi];
+		if (centro.i - 1 > 0)
+			aux[c++] = map[centro.i - 1][centro.j + oi];
+		if (centro.i + 1 < size)
+			aux[c++] = map[centro.i + 1][centro.j + oi];
 	}
+
+	fin = new hexagInfo[c];
+	for (int i = 0; i < c; i++)
+		fin[i] = aux[i];
+
+	return fin;
 }
 
 // Called when the game starts or when spawned
