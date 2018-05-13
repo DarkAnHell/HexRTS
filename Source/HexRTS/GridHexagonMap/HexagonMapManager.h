@@ -24,7 +24,7 @@ public:
 	// Sets default values for this actor's properties
 	AHexagonMapManager();
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag);
+		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag, UStaticMesh * hexMesh);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		AHexagon* getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
