@@ -18,12 +18,19 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 	this->scaleZ = scaleZ;
 
 	map = new AHexagon**[this->size];
+	float n, x, y;
+
+	PerlinNoiseMatrix pm(268);
 
 	for (int i = 0; i < this->size; i++) {
 		map[i] = new AHexagon*[this->size];
 
 		for (int j = 0; j < this->size; j++) {
-			const FVector pos = FVector(j*scaleXY * 3, (j % 2) * 2 * scaleXY + i * scaleXY * 4, 0.0f);
+			x = 80*i/(size);
+			y = 80*j/(size);
+			n = pm.noise(y, x, 0.85f);
+			n = n - floor(n);
+			const FVector pos = FVector(j*scaleXY * 3, (j % 2) * 2 * scaleXY + i * scaleXY * 4, floor(50 * n));
 			map[i][j] = (AHexagon*)((GetWorld())->SpawnActor(hexagon, &pos, &FRotator::ZeroRotator));
 			map[i][j]->GetRootComponent()->SetWorldScale3D(FVector(scaleXY, scaleXY, scaleZ));
 		}
