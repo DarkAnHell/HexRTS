@@ -23,8 +23,8 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 
 	PerlinNoiseMatrix pm(268);
 
-	hexagonClass = GetWorld()->SpawnActor<AActor>(AActor::StaticClass());
-	ISMComp = NewObject<UInstancedStaticMeshComponent>(hexagonClass);
+	AActor* hexagonClass = GetWorld()->SpawnActor<AActor>(AActor::StaticClass());
+	UInstancedStaticMeshComponent *ISMComp = NewObject<UInstancedStaticMeshComponent>(hexagonClass);
 	ISMComp->RegisterComponent();
 	ISMComp->SetStaticMesh(hexMesh);
 	ISMComp->SetFlags(RF_Transactional);
@@ -45,6 +45,8 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 			hi.index = ISMComp->AddInstance(t);
 			hi.pos = pos;
 			hi.status = 0;
+			hi.i = i;
+			hi.j = j;
 			map[i][j] = hi;
 		}
 	}
