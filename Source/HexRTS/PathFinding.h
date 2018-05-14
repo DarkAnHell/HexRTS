@@ -14,7 +14,9 @@ class HEXRTS_API UPathFinding : public UActorComponent
 
 	TArray<Node> _Descarted;
 	TArray<Node> _Discovered;
-public:	
+public:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Mira aqui")
 	AHexagonMapManager * Map;
 
 	UFUNCTION(BlueprintCallable, Category = "Utilities")
