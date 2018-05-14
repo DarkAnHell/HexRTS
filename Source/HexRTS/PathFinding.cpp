@@ -2,7 +2,7 @@
 
 #include "PathFinding.h"
 
-
+#include "Runtime/Engine/Classes/Engine/Engine.h"
 TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 {
 	_Discovered = TArray<Node>();
@@ -10,25 +10,28 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 
 
 	TArray<FhexagInfo> path = TArray<FhexagInfo>();
+	_Discovered.Add(Node(NULL,start,goal));
+
+	TArray<Node> ee=this->Discover(&_Discovered[0], goal);
 
 	while (_Discovered.Num()>0) {
 
-		Node current = _Discovered[0];
-		_Descarted.Add(current);
+		Node* current = &_Discovered[0];
+		_Descarted.Add(*current);
 
 		_Discovered.RemoveAt(0);
+		if (current->Hexagon.pos ==goal.pos) {
 
-		if (current.Hexagon.pos ==goal.pos) {
 			do {
-				path.Insert(current.Hexagon,0);
-				current = *current.Last;
+				path.Insert(current->Hexagon,0);
+				current = current->Last;
 
-			} while (current.Last != NULL);
+			} while (current != NULL);
 
 			break;
 		}
 
-		TArray<Node> neighbours = this->Discover(&current, goal);
+		TArray<Node> neighbours = this->Discover(current, goal);
 
 		_Discovered.Append(neighbours);
 		_Discovered.Sort([](const Node& A, const Node& B) {
@@ -59,6 +62,7 @@ TArray<Node> UPathFinding::Discover(Node* node, FhexagInfo goal)
 
 	for (i = 1;i<possibles.Num();i++) {
 		FVector hexpos = possibles[i].pos;
+
 		//Look if is accesible
 		if (!_Discovered.ContainsByPredicate([&](const Node& InItem) { return InItem.Hexagon.pos==hexpos; })
 			&& !_Descarted.ContainsByPredicate([&](const Node& InItem) { return InItem.Hexagon.pos==hexpos; })
