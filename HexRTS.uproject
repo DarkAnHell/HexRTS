@@ -28,6 +28,10 @@
 			"SupportedTargetPlatforms": [
 				"Android"
 			]
+		},
+		{
+			"Name": "SteamVR",
+			"Enabled": false
 		}
 	]
 }
