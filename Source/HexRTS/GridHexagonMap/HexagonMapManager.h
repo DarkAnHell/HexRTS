@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include <map>
 #include "Hexagon.h"
+#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "PerlinNoiseMatrix.h"
 #include "Runtime/Engine/Classes/Components/InstancedStaticMeshComponent.h"
 #include "HexagonMapManager.generated.h"
@@ -59,7 +61,10 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
-
+	
+private:
+	std::map<int32, float[2]> changesMap;
+	std::map<int32, float[2]> ::iterator iterator;
+	void movePolygons(float DeltaTime);
+	void addMovementPolygon(float targetZ, float speed, int32 index);
 };

@@ -169,3 +169,20 @@ void AHexagonMapManager::Tick(float DeltaTime)
 
 }
 
+void AHexagonMapManager::movePolygons(float DeltaTime)
+{
+	FhexagInfo hx;
+	float posZ;
+	for (iterator = changesMap.begin(); iterator != changesMap.end(); ++iterator) {
+		hx = ;
+		posZ = FMath::FInterpTo(hx.pos.Z, iterator->second[0], DeltaTime, iterator->second[1]);
+		ISMComp->UpdateInstanceTransform(iterator->first, FTransform(FRotator(0.0f, 90.0f, 0.0f), FVector(0.0f, 0.0f, posZ), FVector(scaleXY, scaleXY, scaleZ)));
+	}
+}
+
+void AHexagonMapManager::addMovementPolygon(float targetZ, float speed, int32 index)
+{
+	changesMap[index][0] = targetZ;
+	changesMap[index][1] = speed;
+}
+
