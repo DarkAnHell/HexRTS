@@ -27,7 +27,7 @@ public:
 
 protected:
 
-	TArray<Node> Discover(Node* node, FhexagInfo goal);
+	TArray<Node> Discover(Node node, FhexagInfo goal);
 	// Called when the game starts
 	virtual void BeginPlay() override;
 

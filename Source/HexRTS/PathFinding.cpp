@@ -12,21 +12,19 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 	TArray<FhexagInfo> path = TArray<FhexagInfo>();
 	_Discovered.Add(Node(NULL,start,goal));
 
-	TArray<Node> ee=this->Discover(&_Discovered[0], goal);
-
 	while (_Discovered.Num()>0) {
 
-		Node* current = &_Discovered[0];
-		_Descarted.Add(*current);
+		Node current = _Discovered[0];
+		_Descarted.Add(current);
 
 		_Discovered.RemoveAt(0);
-		if (current->Hexagon.pos ==goal.pos) {
+		if (current.Hexagon.pos ==goal.pos) {
 
 			do {
-				path.Insert(current->Hexagon,0);
-				current = current->Last;
+				path.Insert(current.Hexagon,0);
+				current = *current.Last;
 
-			} while (current != NULL);
+			} while (current.Last != NULL);
 
 			break;
 		}
@@ -54,9 +52,9 @@ UPathFinding::UPathFinding()
 }
 
 
-TArray<Node> UPathFinding::Discover(Node* node, FhexagInfo goal)
+TArray<Node> UPathFinding::Discover(Node node, FhexagInfo goal)
 {
-	TArray<FhexagInfo> possibles= Map->seeAround(node->Hexagon.pos);
+	TArray<FhexagInfo> possibles= Map->seeAround(node.Hexagon.pos);
 	TArray<Node> results = TArray<Node>();
 	int i = 0;
 
@@ -67,7 +65,7 @@ TArray<Node> UPathFinding::Discover(Node* node, FhexagInfo goal)
 		if (!_Discovered.ContainsByPredicate([&](const Node& InItem) { return InItem.Hexagon.pos==hexpos; })
 			&& !_Descarted.ContainsByPredicate([&](const Node& InItem) { return InItem.Hexagon.pos==hexpos; })
 			&& possibles[i].status != -1) {
-			results.Add(Node(node,possibles[i],goal));
+			results.Add(Node(&node,possibles[i],goal));
 		}
 	}
 
