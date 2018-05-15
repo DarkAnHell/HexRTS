@@ -4,7 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine.h"
 #include <map>
+#include <string>
+#include <list>
 #include "Hexagon.h"
 #include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "PerlinNoiseMatrix.h"
@@ -49,7 +52,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FhexagInfo getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		void moveHexagons(FVector pos, float space, float time, int32 radious);
+		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
 
@@ -63,8 +66,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 private:
-	std::map<int32, float[2]> changesMap;
-	std::map<int32, float[2]> ::iterator iterator;
+	std::map<float, float[4]> changesMap;
+	std::map<float, float[4]> ::iterator iterator;
 	void movePolygons(float DeltaTime);
-	void addMovementPolygon(float targetZ, float speed, int32 index);
+	void addMovementPolygon(float targetZ, float speed, float i, float j);
 };
