@@ -19,13 +19,14 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 
 		_Discovered.RemoveAt(0);
 		if (current.Hexagon.pos ==goal.pos) {
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("This is an on screen message!"));
 
 			do {
 				path.Insert(current.Hexagon,0);
 				current = *current.Last;
 
 			} while (current.Last != NULL);
-
+			
 			break;
 		}
 
@@ -46,7 +47,7 @@ UPathFinding::UPathFinding()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
