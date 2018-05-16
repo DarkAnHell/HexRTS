@@ -20,11 +20,11 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 
 		if (current->Hexagon.pos ==goal.pos) {
 
-			do {
+			while (current != NULL) {
 				path.Insert(current->Hexagon,0);
 				current = current->Last;
 
-			} while (current->Last != NULL);
+			} 
 			
 			break;
 		}
