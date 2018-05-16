@@ -12,8 +12,8 @@ class HEXRTS_API UPathFinding : public UActorComponent
 {
 	GENERATED_BODY()
 
-	TArray<Node> _Descarted;
-	TArray<Node> _Discovered;
+	TArray<Node*> _Descarted;
+	TArray<Node*> _Discovered;
 public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Mira aqui")
@@ -27,7 +27,7 @@ public:
 
 protected:
 
-	TArray<Node> Discover(Node node, FhexagInfo goal);
+	TArray<Node*> Discover(Node* node, FhexagInfo goal);
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
