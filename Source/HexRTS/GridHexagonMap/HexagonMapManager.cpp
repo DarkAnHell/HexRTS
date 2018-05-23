@@ -16,6 +16,8 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 	this->size = size;
 	this->scaleXY = scaleXY;
 	this->scaleZ = scaleZ;
+	this->hexagon = hexagon;
+	this->hexMesh = hexMesh;
 
 	map = new FhexagInfo*[this->size];
 	float n , x, y, xx, yy;

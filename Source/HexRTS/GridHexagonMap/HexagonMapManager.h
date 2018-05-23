@@ -41,6 +41,10 @@ public:
 		int32 scaleXY;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		int32 scaleZ;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		UClass* hexagon;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		UStaticMesh * hexMesh;
 	AActor* hexagonClass;
 	UInstancedStaticMeshComponent *ISMComp;
 	//UInstancedStaticMeshComponent *ISMComp;
