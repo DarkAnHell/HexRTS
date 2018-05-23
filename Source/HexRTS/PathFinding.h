@@ -20,7 +20,7 @@ public:
 	AHexagonMapManager * Map;
 
 	UFUNCTION(BlueprintCallable, Category = "Utilities")
-		TArray<FhexagInfo> PathTo(FhexagInfo start, FhexagInfo goal);
+		TArray<FhexagInfo> PathTo(FhexagInfo start, FhexagInfo goal, int aceptableDistance);
 
 	// Sets default values for this component's properties
 	UPathFinding();
