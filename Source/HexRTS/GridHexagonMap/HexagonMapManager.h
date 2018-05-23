@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine.h"
+#include <map>
+#include <string>
+#include <list>
 #include "Hexagon.h"
+#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "PerlinNoiseMatrix.h"
 #include "Runtime/Engine/Classes/Components/InstancedStaticMeshComponent.h"
 #include "HexagonMapManager.generated.h"
@@ -36,6 +41,10 @@ public:
 		int32 scaleXY;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		int32 scaleZ;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		UClass* hexagon;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		UStaticMesh * hexMesh;
 	AActor* hexagonClass;
 	UInstancedStaticMeshComponent *ISMComp;
 	//UInstancedStaticMeshComponent *ISMComp;
@@ -47,7 +56,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FhexagInfo getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		void moveHexagons(FVector pos, float space, float time, int32 radious);
+		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
 
@@ -59,7 +68,10 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
-
+	
+private:
+	std::map<float, float[4]> changesMap;
+	std::map<float, float[4]> ::iterator iterator;
+	void movePolygons(float DeltaTime);
+	void addMovementPolygon(float targetZ, float speed, float i, float j);
 };
