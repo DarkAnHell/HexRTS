@@ -164,6 +164,11 @@ TArray<FhexagInfo> AHexagonMapManager::seeAround(FVector pos)
 	return aux;
 }
 
+FVector AHexagonMapManager::getCenter()
+{
+	return FVector(abs(map[0][0].pos.X - map[size-1][size-1].pos.X), abs(map[0][0].pos.Y - map[size - 1][size - 1].pos.Y), 0.0f);
+}
+
 // Called when the game starts or when spawned
 void AHexagonMapManager::BeginPlay()
 {
@@ -188,11 +193,12 @@ void AHexagonMapManager::movePolygons(float DeltaTime)
 	for (iterator = changesMap.begin(); iterator != changesMap.end(); ++iterator) {
 		hx = &map[(int)iterator->second[2]][(int)iterator->second[3]];
 		posZ = FMath::FInterpTo(hx->pos.Z, iterator->second[0], DeltaTime, iterator->second[1]); //hx->pos.Z + (iterator->second[0] / iterator->second[1])*DeltaTime;
-		hx->pos.Z = posZ;
+		map[(int)iterator->second[2]][(int)iterator->second[3]].pos.Z = posZ;
 		//iterator->second[1] -= DeltaTime;
 		ISMComp->UpdateInstanceTransform(hx->index, FTransform(FRotator(0.0f, 90.0f, 0.0f), FVector(hx->pos.X, hx->pos.Y, posZ), FVector(scaleXY, scaleXY, scaleZ)));
 		if (abs(posZ - iterator->second[0]) < 0.1f) {
 			ISMComp->UpdateInstanceTransform(hx->index, FTransform(FRotator(0.0f, 90.0f, 0.0f), FVector(hx->pos.X, hx->pos.Y, iterator->second[0]), FVector(scaleXY, scaleXY, scaleZ)));
+			map[(int)iterator->second[2]][(int)iterator->second[3]].pos.Z = iterator->second[0];
 			dlt.push_back(iterator->first);
 		}
 		anyChanges = true;

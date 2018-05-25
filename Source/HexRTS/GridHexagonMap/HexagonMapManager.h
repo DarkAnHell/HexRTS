@@ -36,16 +36,17 @@ class HEXRTS_API AHexagonMapManager : public AActor
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
-		int32 size;
+		int32 size = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
-		int32 scaleXY;
+		int32 scaleXY = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
-		int32 scaleZ;
+		int32 scaleZ = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
-		UClass* hexagon;
+		UClass* hexagon = NULL;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
-		UStaticMesh * hexMesh;
-	AActor* hexagonClass;
+		UStaticMesh * hexMesh = NULL;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		AActor* hexagonClass;
 	UInstancedStaticMeshComponent *ISMComp;
 	//UInstancedStaticMeshComponent *ISMComp;
 
@@ -59,6 +60,8 @@ public:
 		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FVector getCenter();
 
 protected:
 	// Called when the game starts or when spawned
