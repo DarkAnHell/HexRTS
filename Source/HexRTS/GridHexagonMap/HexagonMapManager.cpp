@@ -164,6 +164,11 @@ TArray<FhexagInfo> AHexagonMapManager::seeAround(FVector pos)
 	return aux;
 }
 
+FVector AHexagonMapManager::getCenter()
+{
+	return FVector(abs(map[0][0].pos.X - map[size-1][size-1].pos.X), abs(map[0][0].pos.Y - map[size - 1][size - 1].pos.Y), 0.0f);
+}
+
 // Called when the game starts or when spawned
 void AHexagonMapManager::BeginPlay()
 {
