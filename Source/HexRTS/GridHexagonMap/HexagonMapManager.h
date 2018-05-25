@@ -59,6 +59,8 @@ public:
 		UClass* hexagonPre = NULL;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
 		UStaticMesh * hexMeshPre = NULL;
+	
+		
 
 	// Sets default values for this actor's properties
 	AHexagonMapManager();
@@ -72,10 +74,12 @@ public:
 		TArray<FhexagInfo> seeAround(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FVector getCenter();
-	UFUNCTION(BlueprintCallable, Category = "Construction")
-		void generateAbomination();
+	//UFUNCTION(BlueprintCallable, Category = "Construction")
+	//	void generateAbomination();
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FVector getPercentualPosition(float percentX, float percentY);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FVector getMapSize();
 
 protected:
 	// Called when the game starts or when spawned
