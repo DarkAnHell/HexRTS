@@ -59,6 +59,8 @@ public:
 		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FVector getCenter();
 
 protected:
 	// Called when the game starts or when spawned
