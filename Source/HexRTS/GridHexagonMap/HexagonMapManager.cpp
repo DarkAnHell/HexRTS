@@ -169,6 +169,11 @@ FVector AHexagonMapManager::getCenter()
 	return FVector(abs((map[0][0].pos.X + map[size-1][size-1].pos.X)/2), abs((map[0][0].pos.Y + map[size - 1][size - 1].pos.Y)/2), 0.0f);
 }
 
+FVector AHexagonMapManager::getPercentualPosition(float percentX, float percentY)
+{
+	return FVector((map[size - 1][size - 1].pos.X - map[0][0].pos.X) * percentX + map[0][0].pos.X, (map[size - 1][size - 1].pos.Y - map[0][0].pos.Y) * percentX + map[0][0].pos.Y, 0.0f);
+}
+
 // Called when the game starts or when spawned
 void AHexagonMapManager::BeginPlay()
 {
