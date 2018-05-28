@@ -3,8 +3,10 @@
 #include "PathFinding.h"
 
 #include "Runtime/Engine/Classes/Engine/Engine.h"
-TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
+TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal, int aceptableDistance=0)
 {
+	int currentDistance;
+
 	_Discovered = TArray<Node*>();
 	_Descarted = TArray<Node*>(); 
 
@@ -18,7 +20,9 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal)
 		_Descarted.Add(current);
 		_Discovered.RemoveAt(0);
 
-		if (current->Hexagon.pos ==goal.pos) {
+		currentDistance = ceil(((current->Hexagon.pos - goal.pos).Size2D() / (Map->scaleXY * 4)));
+
+		if (currentDistance==aceptableDistance) {
 
 			while (current != NULL) {
 				path.Insert(current->Hexagon,0);

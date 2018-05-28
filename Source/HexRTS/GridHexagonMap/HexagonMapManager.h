@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine.h"
+#include <map>
+#include <string>
+#include <list>
 #include "Hexagon.h"
+#include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "PerlinNoiseMatrix.h"
 #include "Runtime/Engine/Classes/Components/InstancedStaticMeshComponent.h"
 #include "HexagonMapManager.generated.h"
@@ -36,20 +41,45 @@ public:
 		int32 scaleXY;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		int32 scaleZ;
-	AActor* hexagonClass;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		UClass* hexagon;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		UStaticMesh * hexMesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
+		AActor* hexagonClass;
 	UInstancedStaticMeshComponent *ISMComp;
 	//UInstancedStaticMeshComponent *ISMComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
+		int32 sizePre = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
+		int32 scaleXYPre = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
+		int32 scaleZPre = 0;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
+		UClass* hexagonPre = NULL;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
+		UStaticMesh * hexMeshPre = NULL;
+	
+		
 
 	// Sets default values for this actor's properties
 	AHexagonMapManager();
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag, UStaticMesh * hexMesh);
+		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag, UStaticMesh * hexMeshs);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FhexagInfo getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		void moveHexagons(FVector pos, float space, float time, int32 radious);
+		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FVector getCenter();
+	//UFUNCTION(BlueprintCallable, Category = "Construction")
+	//	void generateAbomination();
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FVector getPercentualPosition(float percentX, float percentY);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FVector getMapSize();
 
 protected:
 	// Called when the game starts or when spawned
@@ -59,7 +89,10 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
-
+	
+private:
+	std::map<float, float[4]> changesMap;
+	std::map<float, float[4]> ::iterator iterator;
+	void movePolygons(float DeltaTime);
+	void addMovementPolygon(float targetZ, float speed, float i, float j);
 };
