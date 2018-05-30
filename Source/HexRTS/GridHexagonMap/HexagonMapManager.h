@@ -7,6 +7,8 @@
 #include "Engine.h"
 #include <map>
 #include <string>
+#include <iostream>
+#include <fstream>
 #include <list>
 #include "Hexagon.h"
 #include "Runtime/Core/Public/Math/UnrealMathUtility.h"
@@ -48,7 +50,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Data")
 		AActor* hexagonClass;
 	UInstancedStaticMeshComponent *ISMComp;
-	//UInstancedStaticMeshComponent *ISMComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
 		int32 sizePre = 0;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Preconstructor")
@@ -67,7 +68,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		void construct(int32 siz, int32 scalXY, int32 scalZ, UClass* hexag, UStaticMesh * hexMeshs);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		FhexagInfo getHexagon(FVector pos);
+		void saveMap();
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		void loadMap(UClass* hexag, UStaticMesh * hexMeshs);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FhexagInfo* getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
