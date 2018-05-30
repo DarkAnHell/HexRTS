@@ -58,7 +58,7 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 
 void AHexagonMapManager::saveMap()
 {
-	std::ofstream file("leMap.bin");
+	std::ofstream file("leMap.txt");
 
 	if (file.is_open()) {
 		file << std::to_string(size) << '/n';
@@ -85,7 +85,7 @@ void AHexagonMapManager::saveMap()
 void AHexagonMapManager::loadMap(UClass * hexag, UStaticMesh * hexMeshs)
 {
 	std::string line;
-	std::ifstream file("leMap.bin");
+	std::ifstream file("leMap.txt");
 	if (file.is_open()) {
 
 		std::getline(file, line);
