@@ -8,6 +8,8 @@
 #include <map>
 #include <string>
 #include <list>
+#include <iostream>
+#include <fstream>
 #include "Hexagon.h"
 #include "Runtime/Core/Public/Math/UnrealMathUtility.h"
 #include "PerlinNoiseMatrix.h"
@@ -80,6 +82,10 @@ public:
 		FVector getPercentualPosition(float percentX, float percentY);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FVector getMapSize();
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		void saveMap();
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+		void loadMap(UClass* hexag, UStaticMesh * hexMeshs);
 
 protected:
 	// Called when the game starts or when spawned
