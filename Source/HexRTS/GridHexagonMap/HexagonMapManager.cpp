@@ -58,6 +58,12 @@ void AHexagonMapManager::construct(int32 size, int32 scaleXY, int32 scaleZ, UCla
 
 FhexagInfo AHexagonMapManager::getHexagon(FVector pos)
 {
+	if (pos.X < map[0][0].pos.X || pos.X > map[size - 1][size - 1].pos.X || pos.Y < map[0][0].pos.Y || pos.Y > map[size - 1][size - 1].pos.Y) {
+		FhexagInfo hx;
+		hx.i = -1;
+		return hx;
+	}
+
 	float j = pos.X / 3 / scaleXY, i = pos.Y;
 
 	if (((int)round(j)) % 2 != 0)
@@ -152,6 +158,10 @@ void AHexagonMapManager::loadMap(UClass * hexag, UStaticMesh * hexMeshs)
 void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int32 radious)
 {
 	FhexagInfo aux = getHexagon(pos);
+
+	if (aux.i == -1)
+		return;
+
 	FVector auxP = aux.pos;
 	float distance;
 
