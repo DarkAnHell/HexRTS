@@ -90,7 +90,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	FhexagInfo** map;
+	UFUNCTION(BlueprintCallable, Category = "Operations")
+	public FhexagInfo** map;
 
 public:
 	// Called every frame
