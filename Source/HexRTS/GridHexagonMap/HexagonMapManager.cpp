@@ -173,6 +173,8 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 			auxP = auxP + FVector(3*scaleXY, -2 * scaleXY, 0.0f);
 			if (auxP.X >= 0.0f && auxP.X < size*scaleXY * 3 && auxP.Y >= 0.0f && auxP.Y < size*scaleXY * 4 + 2 * scaleXY) {
 				aux = getHexagon(auxP);
+				if (aux.i == -1)
+					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
 				addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
@@ -181,6 +183,8 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 			auxP = auxP + FVector(0.0f, -4 * scaleXY, 0.0f);
 			if (auxP.X >= 0.0f && auxP.X < size*scaleXY*3 && auxP.Y >= 0.0f && auxP.Y < size*scaleXY*4+2*scaleXY) {
 				aux = getHexagon(auxP);
+				if (aux.i == -1)
+					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
 				addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
@@ -189,6 +193,8 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 			auxP = auxP + FVector(-3*scaleXY, -2 * scaleXY, 0.0f);
 			if (auxP.X >= 0.0f && auxP.X < size*scaleXY * 3 && auxP.Y >= 0.0f && auxP.Y < size*scaleXY * 4 + 2 * scaleXY) {
 				aux = getHexagon(auxP);
+				if (aux.i == -1)
+					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
 				addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
@@ -197,6 +203,8 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 			auxP = auxP + FVector(-3 * scaleXY, 2 * scaleXY, 0.0f);
 			if (auxP.X >= 0.0f && auxP.X < size*scaleXY * 3 && auxP.Y >= 0.0f && auxP.Y < size*scaleXY * 4 + 2 * scaleXY) {
 				aux = getHexagon(auxP);
+				if (aux.i == -1)
+					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
 				addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
@@ -205,6 +213,8 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 			auxP = auxP + FVector(0.0f, 4 * scaleXY, 0.0f);
 			if (auxP.X >= 0.0f && auxP.X < size*scaleXY * 3 && auxP.Y >= 0.0f && auxP.Y < size*scaleXY * 4 + 2 * scaleXY) {
 				aux = getHexagon(auxP);
+				if (aux.i == -1)
+					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
 				addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
@@ -213,12 +223,16 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 			auxP = auxP + FVector(3 * scaleXY, 2 * scaleXY, 0.0f);
 			if (auxP.X >= 0.0f && auxP.X < size*scaleXY * 3 && auxP.Y >= 0.0f && auxP.Y < size*scaleXY * 4 + 2 * scaleXY) {
 				aux = getHexagon(auxP);
+				if (aux.i == -1)
+					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
 				addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 	}
 	aux = getHexagon(pos);
+	if (aux.i == -1)
+		return;
 	//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, space), FVector(scaleXY, scaleXY, scaleZ)), false, true,false);
 	addMovementPolygon(space, speed, aux.i, aux.j);
 
@@ -230,6 +244,9 @@ TArray<FhexagInfo> AHexagonMapManager::seeAround(FVector pos)
 	int oi, oj, c = 0;
 
 	FhexagInfo centro = getHexagon(pos);
+
+	if (centro.i == -1)
+		return aux;
 
 	if (centro.j % 2 == 1)
 		oi = -1;
