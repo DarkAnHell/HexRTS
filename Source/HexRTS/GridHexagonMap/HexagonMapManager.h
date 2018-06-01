@@ -90,7 +90,7 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	FhexagInfo** map;
+	public FhexagInfo** map;
 
 public:
 	// Called every frame
