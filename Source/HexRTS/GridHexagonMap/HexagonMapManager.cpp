@@ -73,6 +73,16 @@ FhexagInfo AHexagonMapManager::getHexagon(FVector pos)
 	return map[(int)round(i)][(int)round(j)];
 }
 
+FhexagInfo AHexagonMapManager::getHexagonByIndex(int i, int j)
+{
+	FhexagInfo hexagon;
+
+	if (i < this->size && j < size)
+		hexagon = map[i][j];
+
+	return hexagon;
+}
+
 void AHexagonMapManager::saveMap()
 {
 	std::ofstream file("leMap.txt");

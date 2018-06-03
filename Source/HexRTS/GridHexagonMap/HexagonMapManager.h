@@ -71,6 +71,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FhexagInfo getHexagon(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
+		FhexagInfo getHexagonByIndex(int i, int j);
+	UFUNCTION(BlueprintCallable, Category = "Operations")
 		void moveHexagons(FVector pos, float space, float speed, int32 radious);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
