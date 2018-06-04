@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -93,6 +93,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	FhexagInfo** map;
+	float max_high = 1000.0f;
+	float min_high = -1000.0f;
 
 public:
 	// Called every frame
