@@ -73,7 +73,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		FhexagInfo getHexagonByIndex(int i, int j);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
-		void moveHexagons(FVector pos, float space, float speed, int32 radious, bool planing=false);
+		void moveHexagons(FVector pos, float space, float speed, int32 radious, bool planing);
 	UFUNCTION(BlueprintCallable, Category = "Operations")
 		TArray<FhexagInfo> seeAround(FVector pos);
 	UFUNCTION(BlueprintCallable, Category = "Operations")

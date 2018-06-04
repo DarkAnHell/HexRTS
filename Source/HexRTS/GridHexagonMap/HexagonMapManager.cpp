@@ -171,7 +171,7 @@ void AHexagonMapManager::loadMap(UClass * hexag, UStaticMesh * hexMeshs)
 	}
 }
 
-void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int32 radious, bool planing=false)
+void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int32 radious, bool planing)
 {
 	FhexagInfo aux = getHexagon(pos);
 	float normal = aux.pos.Z;
