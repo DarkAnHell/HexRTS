@@ -322,6 +322,10 @@ void AHexagonMapManager::movePolygons(float DeltaTime)
 	for (iterator = changesMap.begin(); iterator != changesMap.end(); ++iterator) {
 		hx = &map[(int)iterator->second[2]][(int)iterator->second[3]];
 		posZ = FMath::FInterpTo(hx->pos.Z, iterator->second[0], DeltaTime, iterator->second[1]); //hx->pos.Z + (iterator->second[0] / iterator->second[1])*DeltaTime;
+		if (posZ > max_high)
+			posZ = max_high;
+		if (posZ < min_high)
+			posZ = min_high;
 		map[(int)iterator->second[2]][(int)iterator->second[3]].pos.Z = posZ;
 		//iterator->second[1] -= DeltaTime;
 		ISMComp->UpdateInstanceTransform(hx->index, FTransform(FRotator(0.0f, 90.0f, 0.0f), FVector(hx->pos.X, hx->pos.Y, posZ), FVector(scaleXY, scaleXY, scaleZ)));
