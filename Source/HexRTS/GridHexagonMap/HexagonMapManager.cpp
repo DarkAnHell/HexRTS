@@ -171,9 +171,10 @@ void AHexagonMapManager::loadMap(UClass * hexag, UStaticMesh * hexMeshs)
 	}
 }
 
-void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int32 radious)
+void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int32 radious, bool planing=false)
 {
 	FhexagInfo aux = getHexagon(pos);
+	float normal = aux.pos.Z;
 
 	if (aux.i == -1)
 		return;
@@ -182,7 +183,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 	float distance;
 
 	for (int i = 1; i <= radious; i++) {
-		distance = (space / (radious + 1)) * (radious + 1 - i);
+		if (planing)
+			distance = (1 / (radious + 1)) * (radious + 1 - i);
+		else
+			distance = (space / (radious + 1)) * (radious + 1 - i);
 		auxP = auxP + FVector(0.0f, 4 * scaleXY, 0.0f);
 
 		for (int j = 1; j <= i; j++) {
@@ -192,7 +196,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 				if (aux.i == -1)
 					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
-				addMovementPolygon(distance, speed, aux.i, aux.j);
+				if (planing)
+					addMovementPolygon(distance * (normal - aux.pos.Z), speed, aux.i, aux.j);
+				else
+					addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 		for (int j = 1; j <= i; j++) {
@@ -202,7 +209,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 				if (aux.i == -1)
 					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
-				addMovementPolygon(distance, speed, aux.i, aux.j);
+				if (planing)
+					addMovementPolygon(distance * (normal - aux.pos.Z), speed, aux.i, aux.j);
+				else
+					addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 		for (int j = 1; j <= i; j++) {
@@ -212,7 +222,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 				if (aux.i == -1)
 					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
-				addMovementPolygon(distance, speed, aux.i, aux.j);
+				if (planing)
+					addMovementPolygon(distance * (normal - aux.pos.Z), speed, aux.i, aux.j);
+				else
+					addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 		for (int j = 1; j <= i; j++) {
@@ -222,7 +235,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 				if (aux.i == -1)
 					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
-				addMovementPolygon(distance, speed, aux.i, aux.j);
+				if (planing)
+					addMovementPolygon(distance * (normal - aux.pos.Z), speed, aux.i, aux.j);
+				else
+					addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 		for (int j = 1; j <= i; j++) {
@@ -232,7 +248,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 				if (aux.i == -1)
 					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
-				addMovementPolygon(distance, speed, aux.i, aux.j);
+				if (planing)
+					addMovementPolygon(distance * (normal - aux.pos.Z), speed, aux.i, aux.j);
+				else
+					addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 		for (int j = 1; j <= i; j++) {
@@ -242,7 +261,10 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 				if (aux.i == -1)
 					continue;
 				//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, distance), FVector(scaleXY, scaleXY, scaleZ)));
-				addMovementPolygon(distance, speed, aux.i, aux.j);
+				if (planing)
+					addMovementPolygon(distance * (normal - aux.pos.Z), speed, aux.i, aux.j);
+				else
+					addMovementPolygon(distance, speed, aux.i, aux.j);
 			}
 		}
 	}
@@ -250,7 +272,8 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 	if (aux.i == -1)
 		return;
 	//ISMComp->UpdateInstanceTransform(aux.index, FTransform(FRotator(0.0f, 90.0f, 0.0f), aux.pos + FVector(0.0f, 0.0f, space), FVector(scaleXY, scaleXY, scaleZ)), false, true,false);
-	addMovementPolygon(space, speed, aux.i, aux.j);
+	if (!planing)
+		addMovementPolygon(space, speed, aux.i, aux.j);
 
 }
 
