@@ -89,6 +89,11 @@ FhexagInfo AHexagonMapManager::getHexagonByIndex(int i, int j)
 	return hexagon;
 }
 
+void AHexagonMapManager::changeHexagonStatus(FhexagInfo hex)
+{
+	this->map[hex.i][hex.j].status = hex.status;
+}
+
 void AHexagonMapManager::saveMap()
 {
 	std::ofstream file("leMap.txt");
