@@ -64,12 +64,20 @@ TArray<Node*> UPathFinding::Discover(Node* node, FhexagInfo goal)
 
 	for (i = 1;i<possibles.Num();i++) {
 		FVector hexpos = possibles[i].pos;
+		Node* nodePos = new Node(node, possibles[i], goal);
 
+		if (_Discovered.ContainsByPredicate([&](const Node* InItem) { return InItem->Hexagon.pos == hexpos; })) {
+			Node* discovered = *_Discovered.FindByPredicate([&](const Node* InItem) {  return InItem->Hexagon.pos == hexpos; });
+
+			if (discovered->cost > nodePos->cost) {
+				discovered->cost = nodePos->cost;
+				discovered->Last = nodePos->Last;
+			}
+		}
 		//Look if is accesible
-		if (!_Discovered.ContainsByPredicate([&](const Node* InItem) { return InItem->Hexagon.pos==hexpos; })
-			&& !_Descarted.ContainsByPredicate([&](const Node* InItem) { return InItem->Hexagon.pos==hexpos; })
+		else if (!_Descarted.ContainsByPredicate([&](const Node* InItem) { return InItem->Hexagon.pos==hexpos; })
 			&& possibles[i].status != -1) {
-			results.Add(new Node(node,possibles[i],goal));
+			results.Add(nodePos);
 		}
 	}
 
