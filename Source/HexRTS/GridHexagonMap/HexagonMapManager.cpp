@@ -64,11 +64,11 @@ FhexagInfo AHexagonMapManager::getHexagon(FVector pos)
 		return hx;
 	}
 
-	int j = pos.X / 3 / scaleXY, i = pos.Y;
+	float j = round(pos.X / (3.0f * (float)scaleXY)), i = pos.Y;
 
-	if (((int)round(j)) % 2 != 0)
+	if (((int)j) % 2 != 0)
 		i -= 2 * scaleXY;
-	i = i / 4 / scaleXY;
+	i = round(i / 4.0f / (float)scaleXY);
 
 	if (i < 0 || j < 0 || i >= size || j >= size) {
 		FhexagInfo hx;
@@ -76,7 +76,7 @@ FhexagInfo AHexagonMapManager::getHexagon(FVector pos)
 		return hx;
 	}
 
-	return map[i][j];
+	return map[(int)i][(int)j];
 }
 
 FhexagInfo AHexagonMapManager::getHexagonByIndex(int i, int j)

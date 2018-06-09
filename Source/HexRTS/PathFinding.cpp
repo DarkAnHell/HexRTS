@@ -3,7 +3,7 @@
 #include "PathFinding.h"
 
 #include "Runtime/Engine/Classes/Engine/Engine.h"
-TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal, int aceptableDistance=0)
+TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal, int aceptableDistance=0, int maxHeight=1)
 {
 	int currentDistance;
 
@@ -15,6 +15,12 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal, int a
 	_Discovered.Add(new Node(NULL,start,goal));
 
 	while (_Discovered.Num()>0) {
+
+		if (((Map->size*4)) < (_Descarted.Num() + _Discovered.Num())) {
+			path.Insert(start, 0);
+			break;
+		}
+
 
 		Node* current = _Discovered[0];
 		_Descarted.Add(current);
@@ -33,7 +39,7 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal, int a
 			break;
 		}
 
-		TArray<Node*> neighbours = this->Discover(current, goal);
+		TArray<Node*> neighbours = this->Discover(current, goal, maxHeight);
 
 		_Discovered.Append(neighbours);
 		_Discovered.Sort([](const Node A, const Node B) {
@@ -56,7 +62,7 @@ UPathFinding::UPathFinding()
 }
 
 
-TArray<Node*> UPathFinding::Discover(Node* node, FhexagInfo goal)
+TArray<Node*> UPathFinding::Discover(Node* node, FhexagInfo goal, int jumpHeight)
 {
 	TArray<FhexagInfo> possibles= Map->seeAround(node->Hexagon.pos);
 	TArray<Node*> results = TArray<Node*>();
@@ -66,7 +72,12 @@ TArray<Node*> UPathFinding::Discover(Node* node, FhexagInfo goal)
 		FVector hexpos = possibles[i].pos;
 		Node* nodePos = new Node(node, possibles[i], goal);
 
-		if (_Discovered.ContainsByPredicate([&](const Node* InItem) { return InItem->Hexagon.pos == hexpos; })) {
+		float distanceInHex = ceil(((nodePos->Hexagon.pos.Z-node->Hexagon.pos.Z) / (Map->scaleXY * 4)));
+
+		if (distanceInHex >jumpHeight) {
+			continue;
+		}
+		else if (_Discovered.ContainsByPredicate([&](const Node* InItem) { return InItem->Hexagon.pos == hexpos; })) {
 			Node* discovered = *_Discovered.FindByPredicate([&](const Node* InItem) {  return InItem->Hexagon.pos == hexpos; });
 
 			if (discovered->cost > nodePos->cost) {

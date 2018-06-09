@@ -8,9 +8,9 @@ Node::Node(Node* last, FhexagInfo hexagon, FhexagInfo goal)
 	this->Hexagon = hexagon;
 	this->cost = (goal.pos - hexagon.pos).Size();
 
-	if (last != NULL) {
+	/*if (last != NULL) {
 		this->cost += last->cost;
-	}
+	}*/
 }
 Node::~Node()
 {

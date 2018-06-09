@@ -20,14 +20,14 @@ public:
 	AHexagonMapManager * Map;
 
 	UFUNCTION(BlueprintCallable, Category = "Utilities")
-		TArray<FhexagInfo> PathTo(FhexagInfo start, FhexagInfo goal, int aceptableDistance);
+		TArray<FhexagInfo> PathTo(FhexagInfo start, FhexagInfo goal, int aceptableDistance, int maxHeight);
 
 	// Sets default values for this component's properties
 	UPathFinding();
 
 protected:
 
-	TArray<Node*> Discover(Node* node, FhexagInfo goal);
+	TArray<Node*> Discover(Node* node, FhexagInfo goal, int jumpHeight);
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
