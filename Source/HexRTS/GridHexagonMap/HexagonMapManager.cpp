@@ -189,7 +189,7 @@ void AHexagonMapManager::moveHexagons(FVector pos, float space, float speed, int
 
 	for (int i = 1; i <= radious; i++) {
 		if (planing)
-			distance = (1 / (radious + 1)) * (radious + 1 - i);
+			distance = (((float)radious + 1.0f - (float)i) / ((float)radious + 1.0f));
 		else
 			distance = (space / (radious + 1)) * (radious + 1 - i);
 		auxP = auxP + FVector(0.0f, 4 * scaleXY, 0.0f);
