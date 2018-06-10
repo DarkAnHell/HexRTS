@@ -299,19 +299,19 @@ TArray<FhexagInfo> AHexagonMapManager::seeAround(FVector pos)
 	oj = -oi;
 
 	aux.Add(centro);
-	if (centro.j + oi >= 0 && centro.j + oi < size)
-		aux.Add(map[centro.i][centro.j + oi]);
-	if (centro.i - 1 >= 0)
-		aux.Add(map[centro.i - 1][centro.j]);
-	if (centro.i + 1 < size)
-		aux.Add(map[centro.i + 1][centro.j]);
+	if (centro.i + oi >= 0 && centro.i + oi < size)
+		aux.Add(map[centro.i + oi][centro.j]);
+	if (centro.j - 1 >= 0)
+		aux.Add(map[centro.i][centro.j - 1]);
+	if (centro.j + 1 < size)
+		aux.Add(map[centro.i][centro.j + 1]);
 	oi += 2 * oj;
-	if (centro.j + oi >= 0 && centro.j + oi < size) {
-		aux.Add(map[centro.i][centro.j + oi]);
-		if (centro.i - 1 >= 0)
-			aux.Add(map[centro.i - 1][centro.j + oi]);
-		if (centro.i + 1 < size)
-			aux.Add(map[centro.i + 1][centro.j + oi]);
+	if (centro.i + oi >= 0 && centro.i + oi < size) {
+		aux.Add(map[centro.i + oi][centro.j]);
+		if (centro.j - 1 >= 0)
+			aux.Add(map[centro.i + oi][centro.j - 1]);
+		if (centro.j + 1 < size)
+			aux.Add(map[centro.i + oi][centro.j + 1]);
 	}
 
 	return aux;
