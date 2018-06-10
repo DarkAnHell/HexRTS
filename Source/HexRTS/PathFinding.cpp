@@ -28,7 +28,7 @@ TArray<FhexagInfo> UPathFinding::PathTo(FhexagInfo start, FhexagInfo goal, int a
 
 		currentDistance = ceil(((current->Hexagon.pos - goal.pos).Size2D() / (Map->scaleXY * 4)));
 
-		if (currentDistance==aceptableDistance) {
+		if (currentDistance<=aceptableDistance) {
 
 			while (current != NULL) {
 				path.Insert(current->Hexagon,0);
